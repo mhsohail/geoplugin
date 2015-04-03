@@ -170,6 +170,6 @@ class geoPlugin {
 		return $kms * 0.621371;
 	}
 
-}
+} 
 
 ?>
