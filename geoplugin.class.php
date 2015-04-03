@@ -149,7 +149,7 @@ class geoPlugin {
 
 	// customized code starts here
 	
-	function getDistanceBetween( $latitude1, $longitude1, $latitude2, $longitude2 ) {  
+	function getDistanceBetween( $latitude1, $longitude1, $latitude2, $longitude2 ) {
 	    $earth_radius = 6371;
 	
 	    $dLat = deg2rad( $latitude2 - $latitude1 );  
@@ -159,7 +159,11 @@ class geoPlugin {
 	    $c = 2 * asin(sqrt($a));  
 	    $d = $earth_radius * $c;  
 	
-	    return $d;  
+	    return $d;
+	    
+	    /*
+	    source: http://stackoverflow.com/questions/12439801/how-to-check-if-a-certain-coordinates-fall-to-another-coordinates-radius-using-p
+	    */
 	}
 
 }
