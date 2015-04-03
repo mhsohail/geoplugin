@@ -165,6 +165,10 @@ class geoPlugin {
 	    source: http://stackoverflow.com/questions/12439801/how-to-check-if-a-certain-coordinates-fall-to-another-coordinates-radius-using-p
 	    */
 	}
+	
+	function convertKmstoMiles($kms) {
+		return $kms * 0.621371;
+	}
 
 }
 
