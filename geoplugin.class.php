@@ -131,14 +131,14 @@ class geoPlugin {
 		}
 	}
 	
-	function nearby($radius=10, $limit=null) {
-
+	function nearby($lat, $lng, $radius=100, $limit=10) {
+		
 		if ( !is_numeric($this->latitude) || !is_numeric($this->longitude) ) {
 			trigger_error ('geoPlugin class Warning: Incorrect latitude or longitude values.', E_USER_NOTICE);
 			return array( array() );
 		}
 		
-		$host = "http://www.geoplugin.net/extras/nearby.gp?lat=" . $this->latitude . "&long=" . $this->longitude . "&radius={$radius}";
+		$host = "http://www.geoplugin.net/extras/nearby.gp?lat={$lat}&long={$lng}&radius={$radius}";
 		
 		if ( is_numeric($limit) )
 			$host .= "&limit={$limit}";
@@ -146,10 +146,8 @@ class geoPlugin {
 		return unserialize( $this->fetch($host) );
 
 	}
-
-	// customized code starts here
 	
-	function getDistanceBetween( $latitude1, $longitude1, $latitude2, $longitude2 ) {
+	function getDistanceBetween( $latitude1, $longitude1, $latitude2, $longitude2 ) {  
 	    $earth_radius = 6371;
 	
 	    $dLat = deg2rad( $latitude2 - $latitude1 );  
@@ -159,17 +157,28 @@ class geoPlugin {
 	    $c = 2 * asin(sqrt($a));  
 	    $d = $earth_radius * $c;  
 	
-	    return $d;
-	    
-	    /*
-	    source: http://stackoverflow.com/questions/12439801/how-to-check-if-a-certain-coordinates-fall-to-another-coordinates-radius-using-p
-	    */
+	    return $d;  
 	}
 	
 	function convertKmstoMiles($kms) {
-		return $kms * 0.621371;
+		$miles_in_km = 0.621371;
+		return $kms * $miles_in_km;
+	}
+	
+	function getCoordinatesFromAddress($address) {
+		$address = urlencode($address);
+		$prepAddr = str_replace(' ','+',$address);
+		
+		$geocode=file_get_contents('http://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
+		
+		$output= json_decode($geocode);
+		
+		$lat = $output->results[0]->geometry->location->lat;
+		$long = $output->results[0]->geometry->location->lng;
+		
+		return array('latitude'=>$lat,'longitude'=>$long);
 	}
 
-} 
+}
 
 ?>
