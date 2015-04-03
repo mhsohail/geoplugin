@@ -17,7 +17,6 @@ GNU General Public License for more details.
 @copyright Copyright geoPlugin (gp_support@geoplugin.com)
 $version 1.01
 
-
 This PHP class uses the PHP Webservice of http://www.geoplugin.com/ to geolocate IP addresses
 
 Geographical location of the IP address (visitor) and locate currency (symbol, code and exchange rate) are returned.
@@ -147,8 +146,20 @@ class geoPlugin {
 		return unserialize( $this->fetch($host) );
 
 	}
-
 	
+	function getDistanceBetween( $latitude1, $longitude1, $latitude2, $longitude2 ) {  
+	    $earth_radius = 6371;
+	
+	    $dLat = deg2rad( $latitude2 - $latitude1 );  
+	    $dLon = deg2rad( $longitude2 - $longitude1 );  
+	
+	    $a = sin($dLat/2) * sin($dLat/2) + cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * sin($dLon/2) * sin($dLon/2);  
+	    $c = 2 * asin(sqrt($a));  
+	    $d = $earth_radius * $c;  
+	
+	    return $d;  
+	}
+
 }
 
 ?>
