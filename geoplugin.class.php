@@ -146,6 +146,8 @@ class geoPlugin {
 		return unserialize( $this->fetch($host) );
 
 	}
+
+	// customized code starts here
 	
 	function getDistanceBetween( $latitude1, $longitude1, $latitude2, $longitude2 ) {  
 	    $earth_radius = 6371;
